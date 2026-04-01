@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Cardio Monitor – Risk Assessment</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">  
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style>
+
+body { 
+	width: 100%;
+	min-height: 100vh;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #1f2933;
+	font-size: 16px;
+	background: #f5f7fb;
+}
+
+nav{
+    background: #0f172a !important;
+    box-shadow: rgba(15, 23, 42, 0.35) 0 4px 12px;
+    color: #ffffff;
+}
+
+.navbar-brand{
+    font-family: 'Berkshire Swash', cursive;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand img {
+    margin-right: 0.5rem;
+}
+
+#form-wrapper{
+    max-width: 920px;
+    margin: 2.5rem auto 2rem auto;
+}
+
+#form-div{
+    border-radius: 0.75rem !important;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18) !important; 
+    background: #ffffff;
+    text-align: left;
+    padding: 2.25rem 2rem;
+}
+
+h1{
+    color: #111827 !important;
+    font-size: 1.7rem;
+}
+
+.subtitle {
+    font-size: 0.95rem;
+    color: #4b5563;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+input,select{
+    outline: none !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.35rem !important;
+    font-size: 0.9rem !important;
+    padding: 0.45rem 0.75rem !important;
+    background-color: #ffffff !important;
+}
+
+input:focus,
+select:focus{
+    border-color: #2563eb !important;
+    box-shadow: 0 0 0 0.15rem rgba(37, 99, 235, 0.25) !important;
+}
+
+input::placeholder{ 
+  color: #9ca3af !important;
+  opacity: 1;
+}
+
+.btn-primary{
+    background: #2563eb;
+    border-color: #2563eb;
+    font-weight: 600;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    font-size: 0.95rem;
+}
+
+.btn-primary:hover{
+    background: #1d4ed8;
+    border-color: #1d4ed8;
+}
+
+footer{
+    background: transparent;
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+#mobileview{
+    display: none;
+    font-size: 0.9rem;
+}
+
+#counter-card{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.9rem;
+    border-radius: 999px;
+    background-color: #e0f2fe;
+    color: #1d4ed8;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+@media (max-width:767px) {
+    #mobileview{
+      display: block !important;
+    }
+    #form-div{
+      padding: 1.5rem 1.25rem;
+    }
+}
+    
+</style>
+ 
+</head>
+<body>
+    <nav class="navbar navbar-expand-md mb-3 navbar-dark">
+        <a class="navbar-brand" href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='heartlogo.png') }}" height="40" width="40" alt="Heart logo"/>Cardio Monitor</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link text-white font-weight-semibold" href="{{ url_for('about') }}">About heart disease</a>
+          </div>
+        </div>
+      </nav>
+    <div class="container align-items-center mt-1" id="form-wrapper">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <h4 class="text-muted my-2 p-0" id="mobileview">
+            New to this tool?
+            <a class="text-primary font-weight-semibold" href="{{ url_for('about') }}">Read a brief overview of heart disease</a>
+          </h4>
+          <div id="counter-card">
+            Total assessments: {{ all_count }}
+          </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12 mt-1" id="form-div">
+                <div class="pb-1 pt-1 mb-2">
+                    <h1 class="pb-1 mb-1 font-weight-bold">Cardio Monitor – Individual Risk Screen</h1>
+                    <p class="subtitle">
+                      Please provide the following clinical and demographic details to obtain an estimated risk of heart disease.
+                      This tool is intended to support, not replace, clinical judgment.
+                    </p>
+                </div>
+                <form action="{{ url_for('predict') }}" method="post">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="name">Patient name</label>
+                          <input id="name" class="form-control" type="text" name="name" placeholder="e.g. Jane Doe">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="age">Age (years)</label>
+                          <input id="age" class="form-control" type="number" name="age" placeholder="e.g. 54">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="trestbps">Resting blood pressure (mmHg)</label>
+                          <input id="trestbps" class="form-control" type="number" name="trestbps" placeholder="e.g. 130">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="chol">Serum cholesterol (mg/dL)</label>
+                          <input id="chol" class="form-control" type="number" name="chol" placeholder="e.g. 250">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="thalach">Maximum heart rate achieved</label>
+                          <input id="thalach" class="form-control" type="number" name="thalach" placeholder="e.g. 187">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="oldpeak">ST depression (oldpeak)</label>
+                          <input id="oldpeak" class="form-control" type="number" step="0.1" name="oldpeak" placeholder="e.g. 2.0">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="ca">Number of major vessels (0–3)</label>
+                          <input id="ca" class="form-control" type="number" name="ca" placeholder="e.g. 0">
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="sex">Sex</label>
+                          <select id="sex" class="custom-select" name="sex">
+                            <option value="none">Select sex</option>                
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="cp">Chest pain type</label>
+                          <select id="cp" class="custom-select" name="cp">
+                            <option value="none">Select chest pain type</option>                
+                            <option value="Typical angina">Typical angina</option>
+                            <option value="Atypical angina">Atypical angina</option>
+                            <option value="Non-anginal pain">Non-anginal pain</option>
+                            <option value="Asymptomatic">Asymptomatic</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="exang">Exercise-induced angina</label>
+                          <select id="exang" class="custom-select"  name="exang">
+                            <option value="none">Select</option>                
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="fbs">Fasting blood sugar &gt; 120 mg/dL</label>
+                          <select id="fbs" class="custom-select" name="fbs">
+                            <option value="none">Select</option>                
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="slope">Slope of peak exercise ST segment</label>
+                          <select id="slope" class="custom-select" name="slope">
+                            <option value="none">Select slope</option>                
+                            <option value="Upsloping: better heart rate with excercise(uncommon)">Upsloping: better heart rate with exercise (uncommon)</option>
+                            <option value="Flatsloping: minimal change(typical healthy heart)">Flatsloping: minimal change (typical healthy heart)</option>
+                            <option value="Downsloping: signs of unhealthy heart">Downsloping: signs of unhealthy heart</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="thal">Thalassemia status (thal)</label>
+                          <select id="thal" class="custom-select" name="thal">
+                            <option value="none">Select condition</option>                
+                            <option value="fixed defect: used to be defect but ok now">Fixed defect: used to be defect but OK now</option>
+                            <option value="reversable defect: no proper blood movement when excercising">Reversible defect: reduced perfusion on exercise</option>
+                            <option value="normal">Normal</option>
+                          </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="restecg">Resting ECG result</label>
+                          <select id="restecg" class="custom-select"  name="restecg">
+                            <option value="none">Select</option>                
+                            <option value="Nothing to note">Nothing to note</option>
+                            <option value="ST-T Wave abnormality">ST–T wave abnormality</option>
+                            <option value="Possible or definite left ventricular hypertrophy">Possible or definite LV hypertrophy</option>
+                          </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block btn-large">Run risk prediction</button>   
+                </form>
+                <div class="my-2 pt-2 text-muted border-top">
+                  By submitting, you consent to the anonymized use of this record for continuous model improvement.
+                </div>
+            </div>
+        </div>
+        <footer class="mt-4 p-3">
+          Cardio Monitor &middot; decision-support prototype
+        </footer>
+    </div>	
+</body>
+</html>
+
+
+
+
+    
+</html>

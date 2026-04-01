@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>Cardio Monitor – Incomplete form</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style>
+
+body { 
+	width: 100%;
+	min-height: 100vh;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	color: #1f2933;
+	font-size: 16px;
+	text-align:center;
+	background: #f5f7fb;
+}
+
+nav{
+    background: #0f172a !important;
+    box-shadow: rgba(15, 23, 42, 0.35) 0 4px 12px;
+}
+
+.navbar-brand{
+    font-family: 'Berkshire Swash', cursive;
+    color: #fff !important;
+}
+
+.error-wrapper{
+    max-width: 640px;
+    margin: 3rem auto;
+}
+
+.error-card{
+    background: #ffffff;
+    border-radius: 0.75rem;
+    padding: 2rem 2rem 1.5rem 2rem;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18);
+}
+
+.error-title{
+    font-size: 1.5rem;
+    color: #b91c1c;
+}
+
+.error-text{
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+</style>
+ 
+</head>
+<body>
+    <nav class=" text-center navbar navbar-expand-md mb-2 navbar-dark">
+        <a class="navbar-brand" href="{{ url_for('home') }}"><span class="r-name font-weight-bold"> <img src="{{ url_for('static', filename='heartlogo.png') }}" height="40px" width="40px" alt="Heart logo"/>Cardio Monitor</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    </nav>
+    <div class="error-wrapper">
+      <div class="error-card">
+        <h2 class="error-title mb-3">Some required fields are missing</h2>
+        <p class="error-text mb-3">
+          It looks like the form submission was incomplete. Please return to the risk assessment form and ensure all required
+          demographic and clinical fields are provided before running the prediction.
+        </p>
+        <img src="{{ url_for('static', filename='500.webp') }}" alt="Form error illustration" class="img-fluid mb-3">
+        <a href="{{ url_for('home') }}" class="btn btn-primary">Back to risk assessment</a>
+      </div>
+    </div>
+</body>
+</html>
+
+
+
+
+    
+</html>

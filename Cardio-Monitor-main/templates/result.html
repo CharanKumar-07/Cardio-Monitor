@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html >
+<!--From https://codepen.io/frytyler/pen/EGdtg-->
+<head>
+  <meta charset="UTF-8">
+  <title>Cardio Monitor – Result</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&display=swap" rel="stylesheet">  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<style>
+
+body { 
+	width: 100%;
+	min-height: 100vh;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+	font-size: 16px;
+	background: #f5f7fb;
+}
+
+nav{
+    background: #0f172a !important;
+    box-shadow: rgba(15, 23, 42, 0.35) 0 4px 12px;
+}
+    
+.navbar-brand{
+    font-family: 'Berkshire Swash', cursive;
+    color: #fff !important;
+}
+
+#counter{
+    position: absolute;
+    right: 2%;
+    top: 11%;
+    z-index: 9999;
+    height: 80px;
+    min-width: 60px;
+    background-color: rgba(191, 219, 254, 0.92);
+    color: #1d4ed8;
+    text-align: center;
+    line-height: 1.3;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 0.75rem;
+    padding: 0.35rem 0.75rem;
+}
+
+.result-wrapper{
+    max-width: 960px;
+    margin: 2.5rem auto 2rem auto;
+}
+
+.result-card{
+    background:#ffffff;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 14px 40px rgba(15, 23, 42, 0.18) !important;
+    padding: 2rem 2rem 1.5rem 2rem;
+}
+
+.result-title{
+    font-size: 1.6rem;
+    color: #111827;
+}
+
+.result-subtitle{
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.risk-text{
+    font-size: 1rem;
+    text-align: left;
+}
+
+.risk-text strong{
+    font-weight: 600;
+}
+
+.figure-title{
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1f2933;
+}
+
+footer{
+    background: transparent;
+    color: #6b7280;
+    font-size: 0.85rem;
+    text-align: center;
+}
+    
+</style>
+ 
+</head>
+<body>
+    <nav class=" text-center navbar navbar-expand-md mb-3 navbar-dark">
+        <a class="navbar-brand" href="{{ url_for('home') }}"><span class="r-name font-weight-bold"> <img src="{{ url_for('static', filename='heartlogo.png') }}" height="40px" width="40px" alt="Heart logo"/>Cardio Monitor</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link text-white font-weight-bold" href="{{ url_for('about') }}">About heart disease</a>
+          </div>
+        </div>
+      </nav>
+    <div class="rounded border" id="counter">
+        Model refresh count<br/>{{model_counter}} / {{total_counter}}
+    </div>
+    <div class="container align-items-center result-wrapper">
+        <div class="row border-0">
+            <div class="col-md-12 result-card">
+                <div class="my-1 mb-3">
+                    <h2 class="result-title font-weight-bold">Prediction summary</h2>
+                    <p class="result-subtitle mb-2">Patient: <strong>{{nameofpatient}}</strong></p>
+                </div>
+                    <div class="card-body p-0">
+                    {% if prediction==1 %}
+                    <div class="row">
+                        <div class="col-md-5 border-right mb-3 mb-md-0 d-flex align-items-center justify-content-center">
+                          <img class="img-fluid" src="{{ url_for('static', filename='heart.gif') }}" alt="Low risk illustration">
+                        </div> 
+                        <div class="col-md-6 ">
+                        <div class="d-flex h-100">
+                            <div class="row justify-content-center align-self-center risk-text">
+                            <p class="p-2">
+                              Our model estimates a <span class="text-success font-weight-bold">low likelihood of clinically significant heart disease</span> for this profile.
+                              We still recommend correlating with symptoms, examination and investigations.
+                              For additional background on cardiovascular disease, you can  
+                              <a href="{{ url_for('about') }}" class="btn btn-outline-primary btn-sm ml-1">view the clinical summary</a>.
+                            </p>
+                           </div>
+                        </div>
+                        </div>
+                    </div>
+                {% elif prediction==0 %}
+                <div class="row">
+                    <div class="col-md-5 border-right mb-3 mb-md-0 d-flex align-items-center justify-content-center">
+                      <img class="img-fluid" src="{{ url_for('static', filename='result.jpg') }}" alt="Elevated risk illustration">
+                    </div>
+                    <div class="col-md-6 ">
+                        <div class="d-flex h-100">
+                        <div class="row justify-content-center align-self-center risk-text">
+                        <p class="p-2 ">
+                          The model suggests a <span class="text-danger font-weight-bold">higher estimated risk of heart disease</span> for this profile.
+                          Please review this result in context and consider timely cardiology consultation and further diagnostic work-up as appropriate.
+                          <br/>
+                          For a concise overview of cardiovascular disease, 
+                          <a href="{{ url_for('about') }}" class="btn btn-outline-primary btn-sm mt-2">open the background sheet</a>.
+                        </p>
+                    </div>
+                    </div>
+                    </div>
+                </div>    
+                {% endif %}
+            </div>
+            </div>
+            </div>
+            <div class="col-12 h2 font-weight-bold text-info mb-2 mt-3 figure-title">Feature-wise comparison</div>
+            <div class="col-md-6 col-sm-12">
+                <img src="{{url_for('static', filename='plotng.png')}}" alt="not found" class="img-thumbnail">
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <img src="{{url_for('static', filename='plotng2.png')}}" alt="not found" class="img-thumbnail">
+            </div>
+            <div class="col-12">
+                <p class="m-1 p-1 text-primary font-weight-bold">
+                  Important: This is an algorithmic estimate, not a diagnosis or treatment plan. Please use alongside established clinical pathways and local guidelines.
+                </p>      
+            </div>
+        </div>
+        <footer class="mt-4 p-3">
+            Cardio Monitor result view &middot; for educational and research use
+        </footer>
+    </div>
+    
+</body>
+</html>
+
+
+
+
+    
+</html>
